@@ -178,6 +178,8 @@ SWAGGER_SETTINGS = {
 
 }
 
+ACTIVATION_EMAIL_DOMAIN = 'https://{}'.format(ALLOWED_HOSTS[0]) if ALLOWED_HOSTS else 'http://localhost'
+
 STATIC_URL = '/static/'
 
 # CORS configuration

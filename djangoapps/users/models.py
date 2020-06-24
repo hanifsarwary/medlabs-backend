@@ -39,7 +39,7 @@ def send_verification_mail(sender, instance, created, **kwargs):
 
     token = str(RefreshToken.for_user(instance).access_token)
     subject = "Email Verification"
-    message = 'Kindly follow the following link to verify your account.\n%s?token=%s' % (reverse('activate_view'), token)
+    message = 'Kindly follow the following link to verify your account.\n%s?token=%s' % (settings.ACTIVATION_EMAIL_DOMAIN + reverse('activate_view'), token)
     mail.send(
         instance.email,
         settings.EMAIL_HOST_USER,
