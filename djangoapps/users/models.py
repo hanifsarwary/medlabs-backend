@@ -1,5 +1,4 @@
 from phone_field import PhoneField
-from post_office import mail
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from django.conf import settings
@@ -40,10 +39,9 @@ def send_verification_mail(sender, instance, created, **kwargs):
     token = str(RefreshToken.for_user(instance).access_token)
     subject = "Email Verification"
     message = 'Kindly follow the following link to verify your account.\n%s?token=%s' % (settings.ACTIVATION_EMAIL_DOMAIN + reverse('activate_view'), token)
-    mail.send(
-        instance.email,
+    send_mail((
+        subject,
+        message,
         settings.EMAIL_HOST_USER,
-        subject=subject,
-        message=message,
-        priority='now',
+        instance.email,
     )
