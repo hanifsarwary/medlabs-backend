@@ -198,3 +198,4 @@ django_heroku.settings(locals())
 del DATABASES['default']['OPTIONS']['sslmode']
 
 ACTIVATION_EMAIL_DOMAIN = 'https://medscreenlabs-backend.herokuapp.com' if ALLOWED_HOSTS else 'http://localhost:8000'
+CLOUDAMQP_URL = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@localhost:5672/%2f')
