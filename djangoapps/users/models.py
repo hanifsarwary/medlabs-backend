@@ -1,5 +1,6 @@
 from phone_field import PhoneField
 from rest_framework_simplejwt.tokens import RefreshToken
+from django_rest_passwordreset.signals import reset_password_token_created
 
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser as django_user
@@ -41,9 +42,23 @@ def send_verification_mail(sender, instance, created, **kwargs):
         return
 
     token = str(RefreshToken.for_user(instance).access_token)
-    subject = "Email Verification"
+    subject = 'Email Verification'
     message = 'Kindly follow the following link to verify your account.\n{}?token={}'.format(
         settings.ACTIVATION_EMAIL_DOMAIN + reverse('activate_view'),
         token
     )
     send_email.delay([instance.email], subject, message)
+
+
+@receiver(reset_password_token_created)
+def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
+    """
+    Send password reset email to user.
+    """
+    subject = 'Email Reset'
+    message = 'Kindly follow the below mentioned link to reset your password.\n{}?token={}'.format(
+        settings.ACTIVATION_EMAIL_DOMAIN + reverse('password_reset:reset-password-request'),
+        reset_password_token.key,
+    )
+    send_email.delay([reset_password_token.user.email], subject, message)
+

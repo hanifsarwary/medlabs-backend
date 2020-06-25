@@ -50,6 +50,7 @@ urlpatterns = [
     # jwt token urls
     url(r'^api/token/', UserTokenObtainPairView.as_view(), name='token_obtain_pair'),
     url(r'^api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    url(r'^api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
 
     # djangoapps urls
     url(r'^api/', include('djangoapps.urls')),

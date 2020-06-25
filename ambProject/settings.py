@@ -51,6 +51,7 @@ THIRD_PARTY_APPS = [
     'drf_yasg',
     'phone_field',
     'rest_framework',
+    'django_rest_passwordreset',
 ]
 
 DJANGO_APPS = [
