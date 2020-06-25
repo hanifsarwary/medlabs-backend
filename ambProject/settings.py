@@ -51,7 +51,6 @@ THIRD_PARTY_APPS = [
     'drf_yasg',
     'phone_field',
     'rest_framework',
-    'post_office',
 ]
 
 DJANGO_APPS = [
