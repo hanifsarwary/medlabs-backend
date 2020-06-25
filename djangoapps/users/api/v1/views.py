@@ -7,7 +7,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import AccessToken
 from djangoapps.users.models import User
-from djangoapps.users.api.v1.serializers import UserSerializer
+from djangoapps.users.api.v1.serializers import UserSerializer, UserSignUpSerializer
 
 class UsersViewSet(ModelViewSet):
     """
@@ -26,6 +26,14 @@ class UsersViewSet(ModelViewSet):
             permission_classes = [IsAuthenticated]
 
         return [permission() for permission in permission_classes]
+
+    def get_serializer_class(self):
+        """
+        """
+        if self.action == 'create':
+            return UserSignUpSerializer
+
+        return UserSerializer
 
 @api_view(['GET'])
 @permission_classes([AllowAny])

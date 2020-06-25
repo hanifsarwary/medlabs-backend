@@ -181,8 +181,6 @@ SWAGGER_SETTINGS = {
 
 }
 
-ACTIVATION_EMAIL_DOMAIN = 'https://{}'.format(ALLOWED_HOSTS[0]) if ALLOWED_HOSTS else 'http://localhost:8000'
-
 STATIC_URL = '/static/'
 
 # CORS configuration
@@ -198,3 +196,5 @@ CSRF_TRUSTED_ORIGINS = (
 # Heroku configuration
 django_heroku.settings(locals())
 del DATABASES['default']['OPTIONS']['sslmode']
+
+ACTIVATION_EMAIL_DOMAIN = 'https://{}'.format(ALLOWED_HOSTS[0]) if ALLOWED_HOSTS else 'http://localhost:8000'
