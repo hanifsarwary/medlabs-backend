@@ -1,3 +1,3 @@
 release: python manage.py migrate
 web: gunicorn ambProject.wsgi
-worker: celery worker
+worker: celery -A ambProject worker -l info

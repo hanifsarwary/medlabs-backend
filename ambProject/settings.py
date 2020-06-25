@@ -10,10 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 import django_heroku
+import djcelery
 import dj_database_url
 import dotenv
-
 import os
+
 from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -51,6 +52,7 @@ THIRD_PARTY_APPS = [
     'drf_yasg',
     'phone_field',
     'rest_framework',
+    'djcelery',
 ]
 
 DJANGO_APPS = [
@@ -60,6 +62,8 @@ DJANGO_APPS = [
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + DJANGO_APPS
+
+djcelery.setup_loader()
 
 AUTH_USER_MODEL = 'users.User'
 
@@ -198,4 +202,13 @@ django_heroku.settings(locals())
 del DATABASES['default']['OPTIONS']['sslmode']
 
 ACTIVATION_EMAIL_DOMAIN = 'https://medscreenlabs-backend.herokuapp.com' if ALLOWED_HOSTS else 'http://localhost:5000'
-CELERY_BROKER_URL = os.environ.get('CLOUDAMQP_URL', 'amqp://localhost')
+
+BROKER_URL = os.environ.get("CLOUDAMQP_URL", "django://")
+BROKER_POOL_LIMIT = 1
+BROKER_CONNECTION_MAX_RETRIES = None
+
+CELERY_TASK_SERIALIZER = "json"
+CELERY_ACCEPT_CONTENT = ["json", "msgpack"]
+
+if BROKER_URL == "django://":
+    INSTALLED_APPS += ("kombu.transport.django",)
