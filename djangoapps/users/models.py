@@ -21,6 +21,7 @@ class User(django_user):
                     'active. Unselect this instead of deleting accounts.'))
     address = models.TextField(blank=True, null=True)
     phone = PhoneField(blank=True, null=True)
+    email = models.EmailField(_('email address'), blank=True, unique=True)
 
     @property
     def full_name(self):
@@ -57,8 +58,7 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
     """
     subject = 'Email Reset'
     message = 'Kindly follow the below mentioned link to reset your password.\n{}?token={}'.format(
-        settings.ACTIVATION_EMAIL_DOMAIN + reverse('password_reset:reset-password-request'),
+        settings.ACTIVATION_EMAIL_DOMAIN + reverse('password_reset:reset-password-confirm'),
         reset_password_token.key,
     )
     send_email.delay([reset_password_token.user.email], subject, message)
-
