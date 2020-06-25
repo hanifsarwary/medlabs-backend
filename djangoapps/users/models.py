@@ -8,7 +8,7 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
-from djangoapps.users.api.v1.tasks import send_email
+from djangoapps.users.tasks import send_email
 
 
 class User(django_user):
