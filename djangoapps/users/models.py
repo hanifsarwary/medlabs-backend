@@ -3,11 +3,12 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser as django_user
-from django.core.mail import send_mail
 from django.db import models
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
+
+from djangoapps.users.api.v1.tasks import send_email
 
 
 class User(django_user):
@@ -33,15 +34,16 @@ class User(django_user):
 
 @receiver(models.signals.post_save, sender=User)
 def send_verification_mail(sender, instance, created, **kwargs):
+    """
+    Send user account activation email.
+    """
     if not created:
         return
 
     token = str(RefreshToken.for_user(instance).access_token)
     subject = "Email Verification"
-    message = 'Kindly follow the following link to verify your account.\n%s?token=%s' % (settings.ACTIVATION_EMAIL_DOMAIN + reverse('activate_view'), token)
-    send_mail(
-        subject,
-        message,
-        settings.EMAIL_HOST_USER,
-        [instance.email],
+    message = 'Kindly follow the following link to verify your account.\n{}?token={}'.format(
+        settings.ACTIVATION_EMAIL_DOMAIN + reverse('activate_view'),
+        token
     )
+    send_email.delay([instance.email], subject, message)

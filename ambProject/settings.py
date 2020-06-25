@@ -197,4 +197,4 @@ CSRF_TRUSTED_ORIGINS = (
 django_heroku.settings(locals())
 del DATABASES['default']['OPTIONS']['sslmode']
 
-ACTIVATION_EMAIL_DOMAIN = 'https://{}'.format(ALLOWED_HOSTS[0]) if ALLOWED_HOSTS else 'http://localhost:8000'
+ACTIVATION_EMAIL_DOMAIN = 'https://medscreenlabs-backend.herokuapp.com' if ALLOWED_HOSTS else 'http://localhost:8000'
