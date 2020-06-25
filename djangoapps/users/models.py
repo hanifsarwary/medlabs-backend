@@ -43,5 +43,5 @@ def send_verification_mail(sender, instance, created, **kwargs):
         subject,
         message,
         settings.EMAIL_HOST_USER,
-        instance.email,
+        [instance.email],
     )

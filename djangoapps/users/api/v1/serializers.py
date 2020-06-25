@@ -8,26 +8,23 @@ class UserSerializer(serializers.ModelSerializer):
     """
     Basic user serializer.
     """
-    password_confirmation = serializers.CharField(write_only=True)
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'address', 'phone', 'first_name', 'last_name', 'password', 'password_confirmation', 'is_staff')
+        fields = ('id', 'username', 'email', 'address', 'phone', 'first_name', 'last_name', 'password', 'is_staff')
         extra_kwargs = ({ 'password': { 'write_only': True } })
 
     def validate(self, data):
         """
-        Validate passwords are same.
+        Validate passwords are not empty.
         """
         validated_values = super(UserSerializer, self).validate(data)
         password = validated_values.get('password', '')
-        password_confirmation = validated_values.get('password_confirmation', '')
-        if password != password_confirmation:
+
+        if not password:
             raise serializers.ValidationError(
                 {
-                    'error': 'The given passwords don\'t match'
+                    'error': 'Passwords can not be empty'
                 }
             )
-
-        validated_values.pop('password_confirmation')
         return validated_values
 

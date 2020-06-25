@@ -181,7 +181,7 @@ SWAGGER_SETTINGS = {
 
 }
 
-ACTIVATION_EMAIL_DOMAIN = 'https://{}'.format(ALLOWED_HOSTS[0]) if ALLOWED_HOSTS else 'http://localhost'
+ACTIVATION_EMAIL_DOMAIN = 'https://{}'.format(ALLOWED_HOSTS[0]) if ALLOWED_HOSTS else 'http://localhost:8000'
 
 STATIC_URL = '/static/'
 
