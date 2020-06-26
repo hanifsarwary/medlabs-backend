@@ -3,6 +3,7 @@ from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+from django.utils.translation import ugettext_lazy as _
 from djangoapps.users.models import User
 
 class UserSerializer(serializers.ModelSerializer):

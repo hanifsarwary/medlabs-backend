@@ -8,7 +8,6 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import AccessToken
 
-from django.utils.translation import ugettext_lazy as _
 from djangoapps.users.models import User
 from djangoapps.users.api.v1.serializers import (
     PasswordTokenSerializer,
