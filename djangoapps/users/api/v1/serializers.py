@@ -1,8 +1,9 @@
+from django_rest_passwordreset.serializers import PasswordTokenSerializer as default_serializer
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from djangoapps.users.models import User
-
 
 class UserSerializer(serializers.ModelSerializer):
     """
@@ -47,3 +48,42 @@ class UserSignUpSerializer(serializers.ModelSerializer):
 
         return validated_values
 
+
+class PasswordTokenSerializer(default_serializer):
+    """
+    Password token serializer override.
+    """
+    password1 = serializers.CharField(label=_("Password Confirmation"), style={'input_type': 'password'})
+
+    def validate(self, data):
+        """
+        Validate passwords are same.
+        """
+        password = data.get('password')
+        password1 = data.get('password1')
+        if not password or not password1:
+            raise serializers.ValidationError(
+                {
+                    'error': 'Passwords can not be empty'
+                }
+            )
+
+        if password != password1:
+            raise serializers.ValidationError(
+                {
+                    'error': 'Passwords do not match'
+                }
+            )
+
+        return super(PasswordTokenSerializer, self).validate(data)
+
+
+class UserTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        """
+        Override validate method to add user to return data.
+        """
+        data = super().validate(attrs)
+        user = User.objects.get(username=attrs.get('username'))
+        data['user'] = UserSerializer(user).data
+        return data

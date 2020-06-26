@@ -19,12 +19,14 @@ from rest_framework import permissions
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
+from django_rest_passwordreset.views import reset_password_request_token, reset_password_validate_token
 
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import include
 
 from djangoapps.users.api.v1.views import UserTokenObtainPairView
+from djangoapps.users.api.v1.views import ResetPasswordConfirm
 
 
 schema_view = get_schema_view(
@@ -50,7 +52,9 @@ urlpatterns = [
     # jwt token urls
     url(r'^api/token/', UserTokenObtainPairView.as_view(), name='token_obtain_pair'),
     url(r'^api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    url(r'^api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
+    url(r'^api/password_reset/validate_token/', reset_password_validate_token, name="reset-password-validate"),
+    url(r'^api/password_reset/confirm/', ResetPasswordConfirm.as_view(), name="reset-password-confirm"),
+    url(r'^api/password_reset/', reset_password_request_token, name="reset-password-request"),
 
     # djangoapps urls
     url(r'^api/', include('djangoapps.urls')),
