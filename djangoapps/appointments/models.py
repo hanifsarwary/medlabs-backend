@@ -8,14 +8,31 @@ from model_utils.models import (
 from djangoapps.users.models import User
 from django.db import models
 
+
+class Test(models.Model):
+    title = models.CharField(max_length=250)
+    available = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.title
+
+class TimeSlot(models.Model):
+    start_timestamp = models.DateTimeField()
+    end_timestamp = models.DateTimeField()
+    num_appointments_per_slot = models.IntegerField(default=5)
+
+    def __str__(self):
+        return self.start_timestamp.strftime('%I:%M %p, %a %d-%m-%Y') + ' - ' + self.end_timestamp.strftime('%I:%M %p, %a %d-%m-%Y')
+
 class Appointment(SoftDeletableModel, StatusModel, TimeStampedModel):
     """
     Appointment model.
     """
-    title = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
-    STATUS = Choices('pending', 'confirmed', 'canceled')
+    STATUS = Choices('pending', 'confirmed', 'canceled', 'done')
     appointment_date = models.DateField()
-    start_time = models.TimeField()
-    end_time = models.TimeField()
+    test = models.ForeignKey(Test, on_delete=models.PROTECT, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    time_slot = models.ForeignKey(TimeSlot, on_delete=models.PROTECT, null=True)
+    comments = models.TextField(blank=True, null=True)
+
+

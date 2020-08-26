@@ -33,7 +33,9 @@ SECRET_KEY = 'wplf-_(u1f93ev*evx08fnm*l_9wa9)&(tyc-w)%)9w=*vmj@1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'http://localhost:3000',
+]
 
 
 # Application definition

@@ -30,7 +30,7 @@ class UsersViewSet(ModelViewSet):
         if self.action == 'create':
             permission_classes = [AllowAny]
         else:
-            permission_classes = [IsAuthenticated]
+            permission_classes = [AllowAny]
 
         return [permission() for permission in permission_classes]
 
