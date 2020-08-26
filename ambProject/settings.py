@@ -190,11 +190,13 @@ STATIC_URL = '/static/'
 # CORS configuration
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
+    'https://medscreen-frontend.herokuapp.com',
 )
 
 # CSRF configuration
 CSRF_TRUSTED_ORIGINS = (
     'http://localhost:3000',
+    'https://medscreen-frontend.herokuapp.com',
 )
 
 # Heroku configuration
