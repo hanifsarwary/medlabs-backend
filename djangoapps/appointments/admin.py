@@ -9,6 +9,7 @@ class AppointmentsAdmin(admin.ModelAdmin):
     search_fields = ['test_title']
     list_display = ['test', 'appointment_date', 'time_slot', 'customer', 'status']
     list_filter = ['status', 'appointment_date']
+    raw_id_fields = ['time_slot']
     list_per_page = 25
     ordering = ['-id']
 

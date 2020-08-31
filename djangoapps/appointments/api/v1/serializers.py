@@ -12,7 +12,7 @@ class TimeSlotSerializer(serializers.Serializer):
         return obj.id
 
     def get_time_slot(self, obj):
-        return obj.start_timestamp.strftime('%I:%M %p, %a %d-%m-%Y') + ' - ' + obj.end_timestamp.strftime('%I:%M %p, %a %d-%m-%Y')
+        return obj.start_timestamp.strftime('%a, %m-%d-%Y, %I:%M %p') + ' - ' + obj.end_timestamp.strftime('%I:%M %p')
 
 class TestSerializer(serializers.ModelSerializer):
     class Meta:

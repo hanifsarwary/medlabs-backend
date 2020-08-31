@@ -22,9 +22,9 @@ class TimeSlot(models.Model):
     num_appointments_per_slot = models.IntegerField(default=5)
 
     def __str__(self):
-        return self.start_timestamp.strftime('%I:%M %p, %a %d-%m-%Y') + ' - ' + self.end_timestamp.strftime('%I:%M %p, %a %d-%m-%Y')
+        return self.start_timestamp.strftime('%a, %m-%d-%Y, %I:%M %p') + ' - ' + self.end_timestamp.strftime('%I:%M %p')
 
-class Appointment(SoftDeletableModel, StatusModel, TimeStampedModel):
+class Appointment(StatusModel, TimeStampedModel):
     """
     Appointment model.
     """

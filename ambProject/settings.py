@@ -58,7 +58,7 @@ THIRD_PARTY_APPS = [
 
 DJANGO_APPS = [
     'djangoapps.appointments',
-    'djangoapps.editable_texts',
+    'djangoapps.media',
     'djangoapps.users',
 ]
 
@@ -186,6 +186,8 @@ SWAGGER_SETTINGS = {
 }
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 # CORS configuration
 CORS_ORIGIN_WHITELIST = (

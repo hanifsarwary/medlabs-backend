@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from djangoapps.editable_texts.models import EditableText
+from djangoapps.media.models import EditableText, Media
 
 class EditableTextAdmin(admin.ModelAdmin):
     """
@@ -12,3 +12,4 @@ class EditableTextAdmin(admin.ModelAdmin):
     ordering = ['-id']
 
 admin.site.register(EditableText, EditableTextAdmin)
+admin.site.register(Media)
