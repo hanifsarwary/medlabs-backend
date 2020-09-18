@@ -34,7 +34,7 @@ SECRET_KEY = 'wplf-_(u1f93ev*evx08fnm*l_9wa9)&(tyc-w)%)9w=*vmj@1'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'http://localhost:3000',
+    '*'
 ]
 
 
@@ -124,8 +124,17 @@ WSGI_APPLICATION = 'ambProject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {}
-DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+# DATABASES = {}
+# DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mydatabase',
+    }
+}
+
+
 
 # EMAIL configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -191,19 +200,19 @@ MEDIA_URL = '/media/'
 
 # CORS configuration
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
+    'http://127.0.0.1:3307',
     'https://medscreen-frontend.herokuapp.com',
 )
 
 # CSRF configuration
 CSRF_TRUSTED_ORIGINS = (
-    'http://localhost:3000',
+    'http://127.0.0.1:3307',
     'https://medscreen-frontend.herokuapp.com',
 )
 
 # Heroku configuration
-django_heroku.settings(locals())
-del DATABASES['default']['OPTIONS']['sslmode']
+# django_heroku.settings(locals())
+# del DATABASES['default']['OPTIONS']['sslmode']
 
 ACTIVATION_EMAIL_DOMAIN = 'https://medscreenlabs-backend.herokuapp.com' if ALLOWED_HOSTS else 'http://localhost:8000'
 
