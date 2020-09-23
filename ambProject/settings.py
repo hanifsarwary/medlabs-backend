@@ -129,8 +129,12 @@ WSGI_APPLICATION = 'ambProject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'mydatabase',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'medlab_backend',
+        'USER': 'myprojectuser',
+        'PASSWORD': os.environ.get('MEDLAB_DATABASE_PASSWORD'),
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 

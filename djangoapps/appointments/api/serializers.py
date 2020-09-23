@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from djangoapps.appointments.models import Appointment, TimeSlot, Test
+from djangoapps.appointments.models import Appointment, TimeSlot, Test, Panel
 from djangoapps.users.api.v1.serializers import UserSerializer
 
 
@@ -14,25 +14,33 @@ class TimeSlotSerializer(serializers.Serializer):
     def get_time_slot(self, obj):
         return obj.start_timestamp.strftime('%a, %m-%d-%Y, %I:%M %p') + ' - ' + obj.end_timestamp.strftime('%I:%M %p')
 
+
 class TestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Test
-        fields = ('__all__')
+        fields = '__all__'
+
+
+class PanelSerializer(serializers.ModelSerializer):
+
+    tests = TestSerializer(many=True)
+
+    class Meta:
+        model = Panel
+        fields = '__all__'
 
 
 class AppointmentGetSerializer(serializers.ModelSerializer):
-    """
-    """
+    
     user = UserSerializer()
     time_slot = TimeSlotSerializer()
-    test = TestSerializer()
+    panels = PanelSerializer(many=True)
     class Meta:
         model = Appointment
-        fields = ('id', 'appointment_date', 'time_slot', 'test', 'user', 'status')
+        fields = '__all__'
 
 class AppointmentPostSerializer(serializers.ModelSerializer):
-    """
-    """
+    
     class Meta:
         model = Appointment
-        fields = ('appointment_date', 'time_slot', 'test', 'user', 'status')
+        fields = '__all__'

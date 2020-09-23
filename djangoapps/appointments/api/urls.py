@@ -1,6 +1,6 @@
 from rest_framework.routers import DefaultRouter
 
-from djangoapps.appointments.api.v1.views import AppointmentsViewSet, TimeSlotViewSet, TestsViewSet
+from djangoapps.appointments.api.views import AppointmentsViewSet, TimeSlotViewSet, TestsViewSet
 
 router = DefaultRouter()
 router.register(r'appointments', AppointmentsViewSet, basename='appointments')

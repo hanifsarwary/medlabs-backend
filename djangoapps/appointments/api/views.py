@@ -2,9 +2,9 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import AllowAny
 from django.db.models import Count
 from datetime import datetime
-
+from rest_framework.generics import CreateAPIView
 from djangoapps.appointments.models import Appointment, TimeSlot, Test
-from djangoapps.appointments.api.v1.serializers import AppointmentGetSerializer, AppointmentPostSerializer, TimeSlotSerializer, TestSerializer
+from djangoapps.appointments.api.serializers import AppointmentGetSerializer, AppointmentPostSerializer, TimeSlotSerializer, TestSerializer
 
 
 class AppointmentsViewSet(ModelViewSet):
@@ -25,7 +25,7 @@ class AppointmentsViewSet(ModelViewSet):
             queryset = queryset.filter(status='done')
 
         return queryset
-
+    
 
     def get_serializer_class(self):
         """
@@ -34,6 +34,14 @@ class AppointmentsViewSet(ModelViewSet):
             return AppointmentGetSerializer
 
         return AppointmentPostSerializer
+
+
+class AppointmentCreateAPIView(CreateAPIView):
+
+    serializer_class = AppointmentPostSerializer
+    queryset = Appointment.objects.all()
+
+
 
 class TimeSlotViewSet(ModelViewSet):
     """

@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.urls import include
 
-from djangoapps.appointments.api.v1.urls import urlpatterns as appointments_urls
+from djangoapps.appointments.api.urls import urlpatterns as appointments_urls
 from djangoapps.media.api.v1.urls import urlpatterns as editable_text_urls
 from djangoapps.users.api.v1.urls import urlpatterns as users_urls
 
