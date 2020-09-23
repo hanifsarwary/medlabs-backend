@@ -23,6 +23,8 @@ media
 
 # C extensions
 *.so
+*.sock
+
 
 # Distribution / packaging
 .Python
