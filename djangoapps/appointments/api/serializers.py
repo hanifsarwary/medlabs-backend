@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from djangoapps.appointments.models import Appointment, TimeSlot, Test, Panel
+from djangoapps.appointments.models import Appointment, TimeSlot, Test, Panel, Category
 from djangoapps.users.api.v1.serializers import UserSerializer
 
 
@@ -28,6 +28,15 @@ class PanelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Panel
         fields = '__all__'
+
+
+class CategorySerializer(serializers.ModelSerializer):
+
+    panel = PanelSerializer(many=True, allow_null=True, source='panel_set')
+
+    class Meta:
+        model = Category
+        fields = ('id', 'name', 'panel')
 
 
 class AppointmentGetSerializer(serializers.ModelSerializer):

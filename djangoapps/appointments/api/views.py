@@ -2,9 +2,10 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import AllowAny
 from django.db.models import Count
 from datetime import datetime
-from rest_framework.generics import CreateAPIView
-from djangoapps.appointments.models import Appointment, TimeSlot, Test
-from djangoapps.appointments.api.serializers import AppointmentGetSerializer, AppointmentPostSerializer, TimeSlotSerializer, TestSerializer
+from rest_framework.generics import CreateAPIView, ListAPIView
+from djangoapps.appointments.models import Appointment, TimeSlot, Test, Category
+from djangoapps.appointments.api.serializers import (
+    AppointmentGetSerializer, AppointmentPostSerializer, TimeSlotSerializer, TestSerializer, CategorySerializer)
 
 
 class AppointmentsViewSet(ModelViewSet):
@@ -68,3 +69,9 @@ class TestsViewSet(ModelViewSet):
     serializer_class = TestSerializer
     allowed_methods = ('get')
     queryset = Test.objects.all()
+
+
+class CategoriesAPIView(ListAPIView):
+
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()

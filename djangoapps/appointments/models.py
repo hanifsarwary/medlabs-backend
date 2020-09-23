@@ -10,6 +10,13 @@ from djangoapps.users.models import User
 from django.db import models
 
 
+class Category(models.Model):
+
+    name = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.name
+
 class Test(models.Model):
     title = models.CharField(max_length=250)
     available = models.BooleanField(default=True)
@@ -19,10 +26,12 @@ class Test(models.Model):
 
 class Panel(models.Model):
 
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     panel_name = models.CharField(max_length=250)
     tests = models.ManyToManyField(Test)
     price = models.FloatField()
     available = models.BooleanField(default=True)
+
 
     def __str__(self):
         return self.panel_name
@@ -40,13 +49,14 @@ class Appointment(StatusModel, TimeStampedModel):
     """
     Appointment model.
     """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     STATUS = Choices('pending', 'paid', 'confirmed', 'canceled', 'done')
     status = StatusField()
     appointment_date = models.DateField()
     panels = models.ManyToManyField(Panel)
     total_price = models.FloatField(default=0)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
     time_slot = models.ForeignKey(TimeSlot, on_delete=models.PROTECT, null=True)
     comments = models.TextField(blank=True, null=True)
+    transaction_details = models.TextField(blank=True, null=True)
 
 
