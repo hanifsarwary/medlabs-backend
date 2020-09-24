@@ -1,13 +1,13 @@
 from django.contrib import admin
 
-from djangoapps.appointments.models import Appointment, Test, Panel
+from djangoapps.appointments.models import Appointment, Test, Panel, Category
 
 class AppointmentsAdmin(admin.ModelAdmin):
     """
     Admin interface for the "Appointment" object.
     """
     search_fields = ['test_title']
-    list_display = ['appointment_date', 'time_slot', 'user', 'status']
+    list_display = ['appointment_date', 'time_slot', 'user', 'status',]
     list_filter = ['status', 'appointment_date']
     raw_id_fields = ['time_slot']
     list_per_page = 25
@@ -31,4 +31,5 @@ class PanelAdmin(admin.ModelAdmin):
 admin.site.register(Appointment, AppointmentsAdmin)
 admin.site.register(Test)
 admin.site.register(Panel, PanelAdmin)
+admin.site.register(Category)
 
