@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from djangoapps.appointments.models import Appointment, Test, Panel, Category
+from djangoapps.appointments.models import Appointment, Test, Panel, Category, TimeSlot
 
 class AppointmentsAdmin(admin.ModelAdmin):
     """
@@ -32,4 +32,4 @@ admin.site.register(Appointment, AppointmentsAdmin)
 admin.site.register(Test)
 admin.site.register(Panel, PanelAdmin)
 admin.site.register(Category)
-
+admin.site.register(TimeSlot)
