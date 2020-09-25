@@ -23,7 +23,7 @@ class AppointmentsViewSet(ModelViewSet):
         if username:
             queryset = queryset.filter(user__username=username)
         if active:
-            queryset = queryset.filter(status='confirmed')
+            queryset = queryset.filter(status='pending')
         else:
             queryset = queryset.filter(status='done')
 

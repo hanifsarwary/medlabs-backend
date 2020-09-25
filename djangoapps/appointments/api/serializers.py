@@ -44,6 +44,7 @@ class AppointmentGetSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     time_slot = TimeSlotSerializer()
     panels = PanelSerializer(many=True)
+    
     class Meta:
         model = Appointment
         fields = '__all__'
