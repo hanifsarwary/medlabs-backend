@@ -25,5 +25,5 @@ def create_bulk_timeslots():
                     end_timestamp=time_range[ind + 1]
                 ))
                 ind +=1
-        print("yayyayayaya")       
-        # TimeSlot.objects.bulk_create(timeslot_data)
+               
+        TimeSlot.objects.bulk_create(timeslot_data)
