@@ -73,7 +73,7 @@ SIMPLE_JWT = {
 }
 
 CRONJOBS = [
-    ('* * * * *', 'appointments.jobs.create_bulk_timeslots', '>> /home/hanifsarwari_nuces/logs')
+    ('* * * * *', 'appointments.jobs.create_bulk_timeslots', '>> /home/hanifsarwari_nuces/logs/scheduled_job.log')
 ]
 
 # DRF configuration
