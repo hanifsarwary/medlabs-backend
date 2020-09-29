@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import AllowAny
-from django.db.models import Count
+from django.db.models import Count, Q
 from datetime import datetime
 from rest_framework.generics import CreateAPIView, ListAPIView
 from djangoapps.appointments.models import Appointment, TimeSlot, Test, Category
@@ -25,7 +25,7 @@ class AppointmentsViewSet(ModelViewSet):
         if active:
             queryset = queryset.filter(status='pending')
         else:
-            queryset = queryset.filter(status='done')
+            queryset = queryset.filter(~Q(status='pending'))
 
         return queryset
     

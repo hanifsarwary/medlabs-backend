@@ -54,6 +54,7 @@ THIRD_PARTY_APPS = [
     'phone_field',
     'rest_framework',
     'django_rest_passwordreset',
+    'django_crontab',
 ]
 
 DJANGO_APPS = [
@@ -70,6 +71,10 @@ AUTH_USER_MODEL = 'users.User'
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
 }
+
+CRONJOBS = [
+    ('* * * * *', 'appointments.jobs.create_bulk_timeslots', '>> /home/hanifsarwari_nuces/logs')
+]
 
 # DRF configuration
 REST_FRAMEWORK = {
