@@ -34,7 +34,7 @@ SECRET_KEY = 'wplf-_(u1f93ev*evx08fnm*l_9wa9)&(tyc-w)%)9w=*vmj@1'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '*'
+    'devsteller.com', 'localhost', '127.0.0.1'
 ]
 
 
