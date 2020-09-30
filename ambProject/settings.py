@@ -212,14 +212,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1:3307',
     'http://localhost:3000',
-    'http://devsteller.com',
+    'https://devsteller.com',
 )
 
 # CSRF configuration
 CSRF_TRUSTED_ORIGINS = (
     'http://127.0.0.1:3307',
     'http://localhost:3000',
-    'http://devsteller.com',
+    'https://devsteller.com',
 )
 
 # Heroku configuration
