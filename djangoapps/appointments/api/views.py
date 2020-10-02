@@ -1,13 +1,16 @@
+from django.core.mail import send_mail
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import AllowAny
 from django.db.models import Count, Q
 from datetime import datetime
-from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateAPIView
 from djangoapps.appointments.models import Appointment, TimeSlot, Test, Category
 from djangoapps.appointments.api.serializers import (
-    AppointmentGetSerializer, AppointmentPostSerializer, TimeSlotSerializer, TestSerializer, CategorySerializer)
+    AppointmentGetSerializer, AppointmentPostSerializer, TimeSlotSerializer, TestSerializer, CategorySerializer,
+    UpdateAppointmentStatusSerializer)
+
 
 
 class AppointmentsViewSet(ModelViewSet):
@@ -51,9 +54,27 @@ class AppointmentCreateAPIView(CreateAPIView):
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
+            recipient_list = []
+            message = "An new Appointment has been created by user: {}".format(request.user.username)
+            if request.user.email:
+                recipient_list.append(request.user.email)
+            recipient_list.append("hanifsarwari.nuces@gmail.com")
+            send_mail(recipient_list=recipient_list,
+                from_email="appointments@medscreenlab.com", message=message, subject="Appointment Created") 
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
         return Response({}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class UpdateAppointmentStatusAPIView(RetrieveUpdateAPIView):
+
+    serializer_class = UpdateAppointmentStatusSerializer
+    
+    def get_queryset(self):
+
+        return Appointment.objects.filter(pk=self.kwargs.get('pk'))
+
 
 class TimeSlotViewSet(ModelViewSet):
     """

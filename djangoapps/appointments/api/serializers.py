@@ -54,3 +54,10 @@ class AppointmentPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appointment
         fields = '__all__'
+
+
+class UpdateAppointmentStatusSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Appointment
+        fields = ('status', 'transaction_details')
