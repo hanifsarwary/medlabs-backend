@@ -61,7 +61,8 @@ class AppointmentCreateAPIView(CreateAPIView):
             message = "An new Appointment has been created by user: {}".format(request.user.username)
             if request.user.email:
                 recipient_list.append(request.user.email)
-            recipient_list.append("hanifsarwari.nuces@gmail.com", 'appointments@medscreenlabs.com')
+            recipient_list.append("hanifsarwari.nuces@gmail.com")
+            recipient_list.append('appointments@medscreenlabs.com')
             send_email.delay(recipient_list, "Appointment created", message)
              
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
@@ -88,7 +89,8 @@ class UpdateAppointmentStatusAPIView(RetrieveUpdateAPIView):
             recipient_list = []
             if request.user.email:
                 recipient_list.append(request.user.email)
-            recipient_list.append("hanifsarwari.nuces@gmail.com", 'appointments@medscreenlabs.com')
+            recipient_list.append("hanifsarwari.nuces@gmail.com")
+            recipient_list.append('appointments@medscreenlabs.com')
             send_email.delay(recipient_list, subject, message)
 
     def put(self, request, *args, **kwargs):
