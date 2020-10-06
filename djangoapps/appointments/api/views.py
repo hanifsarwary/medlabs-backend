@@ -10,7 +10,7 @@ from djangoapps.appointments.models import Appointment, TimeSlot, Test, Category
 from djangoapps.appointments.api.serializers import (
     AppointmentGetSerializer, AppointmentPostSerializer, TimeSlotSerializer, TestSerializer, CategorySerializer,
     UpdateAppointmentStatusSerializer)
-
+from users.tasks import send_email
 
 
 class AppointmentsViewSet(ModelViewSet):
@@ -59,8 +59,8 @@ class AppointmentCreateAPIView(CreateAPIView):
             if request.user.email:
                 recipient_list.append(request.user.email)
             recipient_list.append("hanifsarwari.nuces@gmail.com")
-            send_mail(recipient_list=recipient_list,
-                from_email="appointments@medscreenlab.com", message=message, subject="Appointment Created") 
+            send_email.delay(recipient_list, "Appointment created", message)
+             
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
         return Response({}, status=status.HTTP_400_BAD_REQUEST)
