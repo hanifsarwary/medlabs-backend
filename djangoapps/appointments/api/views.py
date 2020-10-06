@@ -54,6 +54,9 @@ class AppointmentCreateAPIView(CreateAPIView):
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
+            time_slot = TimeSlot.objects.get(pk=request.data.get('time_slot'))
+            time_slot.is_taken = True
+            time_slot.save()
             recipient_list = []
             message = "An new Appointment has been created by user: {}".format(request.user.username)
             if request.user.email:
@@ -89,7 +92,7 @@ class TimeSlotViewSet(ModelViewSet):
         date = self.request.query_params.get('date')
         if date:
             date = datetime.strptime(date, '%Y-%m-%d')
-            return TimeSlot.objects.annotate(appointment_count=Count('appointment')).filter(start_timestamp__date=date, appointment_count__lte=5)
+            return TimeSlot.objects.filter(start_timestamp__date=date, is_taken=False)
 
         return TimeSlot.objects.all()
 

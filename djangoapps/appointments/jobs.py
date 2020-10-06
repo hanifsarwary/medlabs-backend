@@ -22,7 +22,8 @@ def create_bulk_timeslots():
                 print(time_range[ind])
                 timeslot_data.append(TimeSlot(
                     start_timestamp=time_range[ind],
-                    end_timestamp=time_range[ind + 1]
+                    end_timestamp=time_range[ind + 1],
+                    is_taken=False
                 ))
                 ind +=1
                
