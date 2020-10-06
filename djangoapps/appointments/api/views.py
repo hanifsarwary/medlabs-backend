@@ -58,7 +58,8 @@ class AppointmentCreateAPIView(CreateAPIView):
             time_slot.is_taken = True
             time_slot.save()
             recipient_list = []
-            message = "An new Appointment has been created by user: {}".format(request.user.username)
+            message = "An new Appointment has been created by user: {}. \n Alloted TimeSlot: {}".format(
+                request.user.username, str(time_slot))
             if request.user.email:
                 recipient_list.append(request.user.email)
             recipient_list.append("hanifsarwari.nuces@gmail.com")
