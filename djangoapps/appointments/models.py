@@ -40,7 +40,7 @@ class Panel(models.Model):
 class TimeSlot(models.Model):
     start_timestamp = models.DateTimeField()
     end_timestamp = models.DateTimeField()
-
+    is_taken = models.BooleanField(default=False)
     def __str__(self):
         return self.start_timestamp.strftime('%a, %m-%d-%Y, %I:%M %p') + ' - ' + self.end_timestamp.strftime('%I:%M %p')
 

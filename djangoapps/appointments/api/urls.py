@@ -11,6 +11,6 @@ router.register(r'tests', TestsViewSet, basename='tests')
 urlpatterns = [
     path('appointments/create/', AppointmentCreateAPIView.as_view()), 
     path('categories/', CategoriesAPIView.as_view()),
-    path('appointments/update/status/', UpdateAppointmentStatusAPIView.as_view())
+    path('appointments/update/status/<int:pk>/', UpdateAppointmentStatusAPIView.as_view())
     ]
 urlpatterns += router.urls
