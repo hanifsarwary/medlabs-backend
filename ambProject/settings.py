@@ -227,11 +227,10 @@ CSRF_TRUSTED_ORIGINS = (
 # django_heroku.settings(locals())
 # del DATABASES['default']['OPTIONS']['sslmode']
 
-ACTIVATION_EMAIL_DOMAIN = 'https://medscreenlabs-backend.herokuapp.com' if ALLOWED_HOSTS else 'http://localhost:8000'
+ACTIVATION_EMAIL_DOMAIN = 'https://covid-plasmadonor.com' if ALLOWED_HOSTS else 'http://localhost:8000'
 
-BROKER_URL = os.environ.get("CLOUDAMQP_URL", "amqp://")
-BROKER_POOL_LIMIT = 1
-BROKER_CONNECTION_MAX_RETRIES = None
-
-CELERY_TASK_SERIALIZER = "json"
-CELERY_ACCEPT_CONTENT = ["json", "msgpack"]
+BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
