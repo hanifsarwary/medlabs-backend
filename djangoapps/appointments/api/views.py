@@ -10,7 +10,7 @@ from djangoapps.appointments.models import Appointment, TimeSlot, Test, Category
 from djangoapps.appointments.api.serializers import (
     AppointmentGetSerializer, AppointmentPostSerializer, TimeSlotSerializer, TestSerializer, CategorySerializer,
     UpdateAppointmentStatusSerializer)
-from users.tasks import send_email
+from djangoapps.users.tasks import send_email
 
 
 class AppointmentsViewSet(ModelViewSet):
