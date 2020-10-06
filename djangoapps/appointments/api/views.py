@@ -11,7 +11,7 @@ from djangoapps.appointments.api.serializers import (
     AppointmentGetSerializer, AppointmentPostSerializer, TimeSlotSerializer, TestSerializer, CategorySerializer,
     UpdateAppointmentStatusSerializer)
 from djangoapps.users.tasks import send_email
-
+import json
 
 class AppointmentsViewSet(ModelViewSet):
     """
@@ -61,7 +61,7 @@ class AppointmentCreateAPIView(CreateAPIView):
             message = "An new Appointment has been created by user: {}".format(request.user.username)
             if request.user.email:
                 recipient_list.append(request.user.email)
-            recipient_list.append("hanifsarwari.nuces@gmail.com")
+            recipient_list.append("hanifsarwari.nuces@gmail.com", 'appointments@medscreenlabs.com')
             send_email.delay(recipient_list, "Appointment created", message)
              
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
@@ -77,6 +77,29 @@ class UpdateAppointmentStatusAPIView(RetrieveUpdateAPIView):
     def get_queryset(self):
 
         return Appointment.objects.filter(pk=self.kwargs.get('pk'))
+    
+    def paid_mail_to_user(self, request):
+        appointment_obj = Appointment.objects.get(pk=self.kwargs.get('pk'))
+
+        if request.data.get('status') == 'paid':
+            message = "User {} has paid {} USD for his appointment at {}".format(
+                self.request.user.username, str(appointment_obj.total_price), str(appointment_obj.time_slot))
+            subject = "Payment confirmation"
+            recipient_list = []
+            if request.user.email:
+                recipient_list.append(request.user.email)
+            recipient_list.append("hanifsarwari.nuces@gmail.com", 'appointments@medscreenlabs.com')
+            send_email.delay(recipient_list, subject, message)
+
+    def put(self, request, *args, **kwargs):
+        update_response = self.update(request, *args, **kwargs)
+        self.paid_mail_to_user(request)
+        return update_response
+
+    def patch(self, request, *args, **kwargs):
+        update_response = self.partial_update(request, *args, **kwargs)
+        self.paid_mail_to_user(request)
+        return update_response
 
 
 class TimeSlotViewSet(ModelViewSet):
