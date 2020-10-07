@@ -135,4 +135,4 @@ class TestsViewSet(ModelViewSet):
 class CategoriesAPIView(ListAPIView):
 
     serializer_class = CategorySerializer
-    queryset = Category.objects.all()
+    queryset = Category.objects.filter(parent_category__isnull=True)
