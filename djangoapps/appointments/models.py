@@ -12,6 +12,7 @@ from django.db import models
 
 class Category(models.Model):
 
+    parent_category = models.ForeignKey("self", on_delete=models.DO_NOTHING, null=True, blank=True)
     name = models.CharField(max_length=256)
 
     def __str__(self):

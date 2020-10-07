@@ -33,10 +33,18 @@ class PanelSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
 
     panel = PanelSerializer(many=True, allow_null=True, source='panel_set')
+    children_categories = serializers.SerializerMethodField()
 
     class Meta:
         model = Category
-        fields = ('id', 'name', 'panel')
+        fields = ('id', 'name', 'panel', 'children_categories')
+
+    def get_children_categories(self, obj):
+        queryset = Category.objects.filter(parent_category=obj.id)
+        if not queryset:
+            return None
+        else:
+            return CategorySerializer(queryset, many=True).data
 
 
 class AppointmentGetSerializer(serializers.ModelSerializer):
