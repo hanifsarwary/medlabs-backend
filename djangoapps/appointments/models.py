@@ -14,6 +14,8 @@ class Category(models.Model):
 
     parent_category = models.ForeignKey("self", on_delete=models.DO_NOTHING, null=True, blank=True)
     name = models.CharField(max_length=256)
+    alias_name = models.CharField(max_length=256, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.name
