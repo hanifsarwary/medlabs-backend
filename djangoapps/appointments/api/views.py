@@ -5,7 +5,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import AllowAny
 from django.db.models import Count, Q
 from datetime import datetime
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateAPIView, RetrieveUpdateDestroyAPIView
 from djangoapps.appointments.models import Appointment, TimeSlot, Test, Category
 from djangoapps.appointments.api.serializers import (
     AppointmentGetSerializer, AppointmentPostSerializer, TimeSlotSerializer, TestSerializer, CategorySerializer,
@@ -55,7 +55,7 @@ class AppointmentCreateAPIView(CreateAPIView):
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
             time_slot = TimeSlot.objects.get(pk=request.data.get('time_slot'))
-            time_slot.is_taken = True
+            time_slot.appointment_count += 1
             time_slot.save()
             recipient_list = []
             message = "An new Appointment has been created by user: {}. \n Alloted TimeSlot: {}".format(
@@ -72,7 +72,7 @@ class AppointmentCreateAPIView(CreateAPIView):
 
 
 
-class UpdateAppointmentStatusAPIView(RetrieveUpdateAPIView):
+class UpdateAppointmentStatusAPIView(RetrieveUpdateDestroyAPIView):
 
     serializer_class = UpdateAppointmentStatusSerializer
     
@@ -103,7 +103,7 @@ class UpdateAppointmentStatusAPIView(RetrieveUpdateAPIView):
         update_response = self.partial_update(request, *args, **kwargs)
         self.paid_mail_to_user(request)
         return update_response
-
+    
 
 class TimeSlotViewSet(ModelViewSet):
     """
@@ -115,12 +115,13 @@ class TimeSlotViewSet(ModelViewSet):
     def get_queryset(self):
         """
         """
+        queryset = TimeSlot.objects.all()
         date = self.request.query_params.get('date')
         if date:
             date = datetime.strptime(date, '%Y-%m-%d')
-            return TimeSlot.objects.filter(start_timestamp__date=date, is_taken=False)
+            queryset = queryset.filter(start_timestamp__date=date, appointment_count__lt=4)
 
-        return TimeSlot.objects.all()
+        return queryset
 
 
 class TestsViewSet(ModelViewSet):

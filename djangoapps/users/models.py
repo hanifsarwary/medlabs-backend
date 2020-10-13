@@ -62,3 +62,29 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
         reset_password_token.key,
     )
     send_email.delay([reset_password_token.user.email], subject, message)
+
+
+class DisplayUserReviews(models.Model):
+
+    full_name = models.CharField(max_length=64)
+    display_text = models.TextField()
+
+
+
+class CareerVacancy(models.Model):
+    
+    name = models.CharField(max_length=128)
+    salary = models.CharField(max_length=128, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    location = models.CharField(max_length=256, null=True, blank=True)
+    last_date_for_application = models.DateField(null=True, blank=True)
+
+
+class JobApplication(models.Model):
+
+    first_name = models.CharField(max_length=64)
+    last_name = models.CharField(max_length=64)
+    email = models.EmailField()
+    contact_no = models.CharField(max_length=32)
+    cover_letter = models.TextField()
+    resume = models.FileField()

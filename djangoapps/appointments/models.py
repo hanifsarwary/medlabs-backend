@@ -11,11 +11,15 @@ from django.db import models
 
 
 class Category(models.Model):
-
+    PRICE_TYPE = (
+        ('CONVENTIONAL', 'CONVENTIONAL'),
+        ('RANGE', 'RANGE'))
     parent_category = models.ForeignKey("self", on_delete=models.DO_NOTHING, null=True, blank=True)
     name = models.CharField(max_length=256)
     alias_name = models.CharField(max_length=256, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
+    secondary_description = models.TextField(null=True, blank=True)
+    price_type = models.CharField(max_length=16, choices=PRICE_TYPE, default='CONVENTIONAL')
 
     def __str__(self):
         return self.name
@@ -43,7 +47,11 @@ class Panel(models.Model):
 class TimeSlot(models.Model):
     start_timestamp = models.DateTimeField()
     end_timestamp = models.DateTimeField()
-    is_taken = models.BooleanField(default=False)
+    appointment_count = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['-id']
+
     def __str__(self):
         return self.start_timestamp.strftime('%a, %m-%d-%Y, %I:%M %p') + ' - ' + self.end_timestamp.strftime('%I:%M %p')
 
