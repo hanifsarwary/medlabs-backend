@@ -3,7 +3,7 @@ from django.contrib.auth.models import Group
 from django.urls import reverse
 from django.utils.html import format_html
 
-from djangoapps.users.models import User
+from djangoapps.users.models import User, DisplayUserReviews, CareerVacancy, JobApplication
 
 
 class UsersAdmin(admin.ModelAdmin):
@@ -26,3 +26,6 @@ class UsersAdmin(admin.ModelAdmin):
 
 admin.site.register(User, UsersAdmin)
 admin.site.unregister(Group)
+admin.site.register(JobApplication)
+admin.site.register(CareerVacancy)
+admin.site.register*=(DisplayUserReviews)
