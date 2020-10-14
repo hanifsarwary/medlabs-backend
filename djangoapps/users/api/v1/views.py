@@ -82,9 +82,11 @@ class CareerVacancyViewSet(ModelViewSet):
 
     serializer_class = CareerVacancySerializer
     queryset = CareerVacancy.objects.all()
+    permission_classes = [AllowAny]
 
 
 class JobApplicationViewSet(ModelViewSet):
 
     serializer_class = JobApplicationSerializer
     queryset = JobApplication.objects.all()
+    permission_classes = [AllowAny]
