@@ -8,12 +8,12 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import AccessToken
 
-from djangoapps.users.models import User
+from djangoapps.users.models import User, DisplayUserReviews, CareerVacancy, JobApplication
 from djangoapps.users.api.v1.serializers import (
-    PasswordTokenSerializer,
-    UserSerializer,
+    PasswordTokenSerializer, DisplayUserReviewsSerializer,
+    UserSerializer, CareerVacancySerializer, JobApplicationSerializer,
     UserSignUpSerializer,
-    UserTokenObtainPairSerializer,
+    UserTokenObtainPairSerializer, 
 )
 
 class UsersViewSet(ModelViewSet):
@@ -69,3 +69,22 @@ class UserTokenObtainPairView(TokenObtainPairView):
 
 class ResetPasswordConfirm(default_password_reset):
     serializer_class = PasswordTokenSerializer
+
+
+class DisplayUserReviewsViewSet(ModelViewSet):
+
+    serializer_class = DisplayUserReviewsSerializer
+    queryset = DisplayUserReviews.objects.all()
+    permission_classes = [AllowAny]
+
+
+class CareerVacancyViewSet(ModelViewSet):
+
+    serializer_class = CareerVacancySerializer
+    queryset = CareerVacancy.objects.all()
+
+
+class JobApplicationViewSet(ModelViewSet):
+
+    serializer_class = JobApplicationSerializer
+    queryset = JobApplication.objects.all()

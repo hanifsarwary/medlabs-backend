@@ -90,3 +90,25 @@ class UserTokenObtainPairSerializer(TokenObtainPairSerializer):
         return data
 
 
+class DisplayUserReviewsSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = DisplayUserReviews
+        fields = '__all__'
+
+
+class JobApplicationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = JobApplication
+        fields = '__all__'
+
+
+class CareerVacancySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CareerVacancy
+        fields = '__all__'
+
+        
