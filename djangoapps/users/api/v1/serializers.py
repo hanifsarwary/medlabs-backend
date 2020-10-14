@@ -4,7 +4,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from django.utils.translation import ugettext_lazy as _
-from djangoapps.users.models import User
+from djangoapps.users.models import User, DisplayUserReviews, CareerVacancy, JobApplication
 
 class UserSerializer(serializers.ModelSerializer):
     """
@@ -88,3 +88,5 @@ class UserTokenObtainPairSerializer(TokenObtainPairSerializer):
         user = User.objects.get(username=attrs.get('username'))
         data['user'] = UserSerializer(user).data
         return data
+
+

@@ -137,3 +137,4 @@ class CategoriesAPIView(ListAPIView):
 
     serializer_class = CategorySerializer
     queryset = Category.objects.filter(parent_category__isnull=True)
+    permission_classes = [AllowAny, ]

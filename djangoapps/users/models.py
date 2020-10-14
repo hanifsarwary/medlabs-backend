@@ -69,22 +69,32 @@ class DisplayUserReviews(models.Model):
     full_name = models.CharField(max_length=64)
     display_text = models.TextField()
 
+    def __str__(self):
+        return self.full_name
 
 
 class CareerVacancy(models.Model):
     
-    name = models.CharField(max_length=128)
+    title = models.CharField(max_length=128)
     salary = models.CharField(max_length=128, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     location = models.CharField(max_length=256, null=True, blank=True)
     last_date_for_application = models.DateField(null=True, blank=True)
+    is_available = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.title
 
 
 class JobApplication(models.Model):
+
+    career_vacancy = models.ForeignKey(CareerVacancy, on_delete=models.CASCADE, null=True)
 
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
     email = models.EmailField()
     contact_no = models.CharField(max_length=32)
-    cover_letter = models.TextField()
+    cover_letter = models.TextField(null=True, blank=True)
     resume = models.FileField()
+
+
