@@ -15,6 +15,6 @@ router.register(r'job-applications', JobApplicationViewSet, basename='job-applic
 
 urlpatterns = [
     url(r'^users/activate/', ActivateUserView, name='activate_view'),
-    url(r'^who-we-are/', ActivateUserView, name='who_we_are_view')
+    url(r'^who-we-are/', WhoWeAreTextAPIView, name='who_we_are_view')
 ]
 urlpatterns += router.urls
