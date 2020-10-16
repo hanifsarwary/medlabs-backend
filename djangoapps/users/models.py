@@ -96,7 +96,7 @@ class JobApplication(models.Model):
     email = models.EmailField()
     contact_no = models.CharField(max_length=32)
     cover_letter = models.TextField(null=True, blank=True)
-    resume = models.FileField()
+    resume = models.FileField(null=True, blank=True)
 
     def __str__(self):
         return self.career_vacancy.title + '----' + self.email 

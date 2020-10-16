@@ -95,5 +95,6 @@ class JobApplicationViewSet(ModelViewSet):
 
 class WhoWeAreTextAPIView(APIView):
 
+    permission_classes = [AllowAny]
     def get(self, request):
         return Response({'text': config.WHO_WE_ARE})
