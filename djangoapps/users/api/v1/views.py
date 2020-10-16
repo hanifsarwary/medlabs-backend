@@ -95,5 +95,5 @@ class JobApplicationViewSet(ModelViewSet):
 
 class WhoWeAreTextAPIView(APIView):
 
-    def get(self):
+    def get(self, request):
         return Response({'text': config.WHO_WE_ARE})
