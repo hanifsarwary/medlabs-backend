@@ -154,7 +154,7 @@ CONSTANCE_REDIS_CONNECTION = {
 }
 
 CONSTANCE_CONFIG = {
-    'THE_ANSWER': ('', 'Enter the display text for \"Who we are\"', str),
+    'WHO_WE_ARE': ('', 'Enter the display text for \"Who we are\"', str),
     'INTERVAL_UNIT':(7, 'Enter per interval units count fot drug confirmation', int),
     'START_PRICE':(100, 'Enter the start price', int),
     'INTERVAL_PRICE':(100, 'Enter the start price', int),

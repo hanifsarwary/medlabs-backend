@@ -67,6 +67,7 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
 class DisplayUserReviews(models.Model):
 
     full_name = models.CharField(max_length=64)
+    designation = models.CharField(max_length=64, null=True, blank=True)
     display_text = models.TextField()
 
     def __str__(self):
@@ -97,4 +98,6 @@ class JobApplication(models.Model):
     cover_letter = models.TextField(null=True, blank=True)
     resume = models.FileField()
 
+    def __str__(self):
+        return self.career_vacancy.title + '----' + self.email 
 

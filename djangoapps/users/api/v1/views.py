@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import AccessToken
-
+from rest_framework.views import APIView
 from djangoapps.users.models import User, DisplayUserReviews, CareerVacancy, JobApplication
 from djangoapps.users.api.v1.serializers import (
     PasswordTokenSerializer, DisplayUserReviewsSerializer,
@@ -15,6 +15,7 @@ from djangoapps.users.api.v1.serializers import (
     UserSignUpSerializer,
     UserTokenObtainPairSerializer, 
 )
+from constance import config
 
 class UsersViewSet(ModelViewSet):
     """
@@ -90,3 +91,9 @@ class JobApplicationViewSet(ModelViewSet):
     serializer_class = JobApplicationSerializer
     queryset = JobApplication.objects.all()
     permission_classes = [AllowAny]
+
+
+class WhoWeAreTextAPIView(APIView):
+
+    def get(self):
+        return Response({'text': config.WHO_WE_ARE})

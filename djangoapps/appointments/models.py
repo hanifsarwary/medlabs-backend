@@ -20,6 +20,12 @@ class Category(models.Model):
     description = models.TextField(null=True, blank=True)
     secondary_description = models.TextField(null=True, blank=True)
     price_type = models.CharField(max_length=16, choices=PRICE_TYPE, default='CONVENTIONAL')
+    sorting_order = models.IntegerField(default=0)
+    icon_image = models.FileField(null=True, blank=True)
+    main_image = models.FileField(null=True, blank=True)
+    
+    class Meta:
+        ordering = ['sorting_order', 'id']
 
     def __str__(self):
         return self.name
@@ -27,9 +33,13 @@ class Category(models.Model):
 class Test(models.Model):
     title = models.CharField(max_length=250)
     available = models.BooleanField(default=True)
+    sorting_order = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title
+    
+    class Meta:
+        ordering = ['sorting_order', 'id']
 
 class Panel(models.Model):
 
@@ -39,9 +49,13 @@ class Panel(models.Model):
     price = models.FloatField()
     available = models.BooleanField(default=True)
 
+    sorting_order = models.IntegerField(default=0)
 
     def __str__(self):
         return self.panel_name
+
+    class Meta:
+        ordering = ['sorting_order', 'id']
 
 
 class TimeSlot(models.Model):
@@ -50,7 +64,7 @@ class TimeSlot(models.Model):
     appointment_count = models.IntegerField(default=0)
 
     class Meta:
-        ordering = ['-id']
+        ordering = ['id']
 
     def __str__(self):
         return self.start_timestamp.strftime('%a, %m-%d-%Y, %I:%M %p') + ' - ' + self.end_timestamp.strftime('%I:%M %p')
@@ -70,4 +84,6 @@ class Appointment(StatusModel, TimeStampedModel):
     comments = models.TextField(blank=True, null=True)
     transaction_details = models.TextField(blank=True, null=True)
 
+    class Meta:
+        ordering = ['-id']
 
