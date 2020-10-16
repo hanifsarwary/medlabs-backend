@@ -37,7 +37,9 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ('id', 'name', 'panel', 'children_categories', 'alias_name', 'description')
+        fields = (
+            'id', 'name', 'panel', 'children_categories', 'alias_name', 'description', 'secondary_description',
+            'icon_image', 'main_image', 'price_type')
 
     def get_children_categories(self, obj):
         queryset = Category.objects.filter(parent_category=obj.id)
