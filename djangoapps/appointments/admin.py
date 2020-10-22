@@ -7,10 +7,10 @@ from quilljs.widgets import QuillEditorWidget
 from quilljs.admin import QuillAdmin
 
 class CategoryAdmin(QuillAdmin):
-    # formfield_overrides = {
-    #     models.TextField: {'widget': QuillEditorWidget},
-    # }    
-    pass
+    formfield_overrides = {
+        models.TextField: {'widget': QuillEditorWidget},
+    }    
+    
 
 
 class AppointmentsAdmin(admin.ModelAdmin):
