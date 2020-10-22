@@ -55,7 +55,9 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'django_rest_passwordreset',
     'django_crontab',
-    'constance'
+    'constance',
+    'quilljs',
+
 ]
 
 DJANGO_APPS = [

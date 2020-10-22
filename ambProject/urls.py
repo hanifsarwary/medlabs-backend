@@ -50,7 +50,6 @@ urlpatterns = [
 
     # admin urls
     url(r'^admin/', admin.site.urls),
-
     # jwt token urls
     url(r'^api/token/', UserTokenObtainPairView.as_view(), name='token_obtain_pair'),
     url(r'^api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
