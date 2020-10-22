@@ -9,12 +9,14 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import AccessToken
 from rest_framework.views import APIView
 from djangoapps.users.models import User, DisplayUserReviews, CareerVacancy, JobApplication
+
 from djangoapps.users.api.v1.serializers import (
     PasswordTokenSerializer, DisplayUserReviewsSerializer,
     UserSerializer, CareerVacancySerializer, JobApplicationSerializer,
     UserSignUpSerializer,
     UserTokenObtainPairSerializer, 
 )
+from djangoapps.media.models import EditableText
 from constance import config
 
 class UsersViewSet(ModelViewSet):
@@ -97,4 +99,5 @@ class WhoWeAreTextAPIView(APIView):
 
     permission_classes = [AllowAny]
     def get(self, request):
-        return Response({'text': config.WHO_WE_ARE})
+        text_obj = EditableText.objects.get(key="who_we_are")
+        return Response({'text': text_obj.value})
