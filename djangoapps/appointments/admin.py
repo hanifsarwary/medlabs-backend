@@ -3,16 +3,6 @@ from django.forms import ModelForm
 from djangoapps.appointments.models import Appointment, Test, Panel, Category, TimeSlot
 from django.db import models
 
-from quilljs.widgets import QuillEditorWidget
-from quilljs.admin import QuillAdmin
-
-class CategoryAdmin(QuillAdmin):
-    formfield_overrides = {
-        models.TextField: {'widget': QuillEditorWidget},
-    }    
-    
-
-
 class AppointmentsAdmin(admin.ModelAdmin):
     """
     Admin interface for the "Appointment" object.
@@ -42,5 +32,5 @@ class PanelAdmin(admin.ModelAdmin):
 admin.site.register(Appointment, AppointmentsAdmin)
 admin.site.register(Test)
 admin.site.register(Panel, PanelAdmin)
-admin.site.register(Category, CategoryAdmin)
+admin.site.register(Category)
 admin.site.register(TimeSlot)
