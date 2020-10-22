@@ -56,6 +56,7 @@ THIRD_PARTY_APPS = [
     'django_rest_passwordreset',
     'django_crontab',
     'constance',
+    'tinymce',
 
 ]
 

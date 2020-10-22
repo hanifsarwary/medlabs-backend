@@ -25,7 +25,7 @@ from django.conf import settings
 from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include
+from django.urls import include, path
 
 from djangoapps.users.api.v1.views import UserTokenObtainPairView
 from djangoapps.users.api.v1.views import ResetPasswordConfirm
@@ -50,6 +50,8 @@ urlpatterns = [
 
     # admin urls
     url(r'^admin/', admin.site.urls),
+    url(r'^tinymce/', include('tinymce.urls')),
+
     # jwt token urls
     url(r'^api/token/', UserTokenObtainPairView.as_view(), name='token_obtain_pair'),
     url(r'^api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

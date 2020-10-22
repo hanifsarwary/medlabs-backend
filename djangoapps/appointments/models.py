@@ -8,7 +8,7 @@ from model_utils.models import (
 
 from djangoapps.users.models import User
 from django.db import models
-
+from tinymce.models import HTMLField
 
 class Category(models.Model):
     PRICE_TYPE = (
@@ -17,7 +17,7 @@ class Category(models.Model):
     parent_category = models.ForeignKey("self", on_delete=models.DO_NOTHING, null=True, blank=True)
     name = models.CharField(max_length=256)
     alias_name = models.CharField(max_length=256, null=True, blank=True)
-    description = models.TextField(null=True, blank=True)
+    description = HTMLField(null=True, blank=True)
     secondary_description = models.TextField(null=True, blank=True)
     price_type = models.CharField(max_length=16, choices=PRICE_TYPE, default='CONVENTIONAL')
     interval_count = models.PositiveIntegerField(null=True, blank=True)
