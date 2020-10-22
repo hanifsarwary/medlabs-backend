@@ -24,6 +24,7 @@ class Category(models.Model):
     start_price = models.PositiveIntegerField(null=True, blank=True)
     interval_price = models.PositiveIntegerField(null=True, blank=True)
     sorting_order = models.IntegerField(default=0)
+    is_display = models.BooleanField(default=True)
     icon_image = models.FileField(null=True, blank=True)
     main_image = models.FileField(null=True, blank=True)
     
