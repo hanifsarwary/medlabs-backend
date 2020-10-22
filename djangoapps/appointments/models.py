@@ -18,7 +18,7 @@ class Category(models.Model):
     name = models.CharField(max_length=256)
     alias_name = models.CharField(max_length=256, null=True, blank=True)
     description = HTMLField(null=True, blank=True)
-    secondary_description = models.TextField(null=True, blank=True)
+    secondary_description = HTMLField(null=True, blank=True)
     price_type = models.CharField(max_length=16, choices=PRICE_TYPE, default='CONVENTIONAL')
     interval_count = models.PositiveIntegerField(null=True, blank=True)
     start_price = models.PositiveIntegerField(null=True, blank=True)

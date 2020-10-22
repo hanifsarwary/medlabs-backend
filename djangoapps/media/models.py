@@ -1,13 +1,14 @@
 from model_utils.models import TimeStampedModel
 
 from django.db import models
+from tinymce.models import HTMLField
 
 class EditableText(TimeStampedModel):
     """
     The "EditableText" model.
     """
-    key = models.CharField(max_length=255)
-    value = models.TextField()
+    key = models.CharField(max_length=255, db_index=True)
+    value = HTMLField(null=True, blank=True)
 
 
 class Media(TimeStampedModel):
