@@ -6,10 +6,12 @@ from django.db import models
 from quilljs.widgets import QuillEditorWidget
 from quilljs.admin import QuillAdmin
 
-class CategoryAdmin(admin.ModelAdmin):
-    formfield_overrides = {
-        models.TextField: {'widget': QuillEditorWidget},
-    }    
+class CategoryAdmin(QuillAdmin):
+    # formfield_overrides = {
+    #     models.TextField: {'widget': QuillEditorWidget},
+    # }    
+    pass
+
 
 class AppointmentsAdmin(admin.ModelAdmin):
     """
