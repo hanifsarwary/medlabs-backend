@@ -19,11 +19,9 @@ def create_bulk_timeslots():
             time_range = daterange_minute(day, future_date)
             ind = 0
             while ind + 1 < len(list(time_range)):
-                print(time_range[ind])
                 timeslot_data.append(TimeSlot(
                     start_timestamp=time_range[ind],
-                    end_timestamp=time_range[ind + 1],
-                    is_taken=False
+                    end_timestamp=time_range[ind + 1]
                 ))
                 ind +=1
                
