@@ -89,7 +89,7 @@ class CareerVacancy(models.Model):
 
 class JobApplication(models.Model):
 
-    career_vacancy = models.ForeignKey(CareerVacancy, on_delete=models.CASCADE, null=True)
+    career_vacancy = models.ForeignKey(CareerVacancy, on_delete=models.CASCADE)
 
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
@@ -99,5 +99,5 @@ class JobApplication(models.Model):
     resume = models.FileField(null=True, blank=True)
 
     def __str__(self):
-        return self.career_vacancy + '----' + self.email 
+        return self.email 
 
