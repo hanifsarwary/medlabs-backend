@@ -1,4 +1,6 @@
+from django.conf import settings
 from django_rest_passwordreset.views import ResetPasswordConfirm as default_password_reset
+
 from rest_framework import serializers
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -17,7 +19,9 @@ from djangoapps.users.api.v1.serializers import (
     UserTokenObtainPairSerializer, 
 )
 from djangoapps.media.models import EditableText
+from djangoapps.users.tasks import send_email
 from constance import config
+
 
 class UsersViewSet(ModelViewSet):
     """
@@ -83,6 +87,23 @@ class JobApplicationViewSet(ModelViewSet):
     serializer_class = JobApplicationSerializer
     queryset = JobApplication.objects.all()
     permission_classes = [AllowAny]
+
+    def perform_create(self, serializer):
+        return serializer.save()
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        application = self.perform_create(serializer)
+        message = """An new Application for the job {0} arrived. 
+                     Kindly click on the link below to view \n 
+                     {1}//admin/users/jobapplication/{2}/change/""".format(
+            application.career_vacancy.title, settings.ACTIVATION_EMAIL_DOMAIN, str(application.id))
+        send_email.delay(['appointments@medscreenlabs.com'], "Job Application", message)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+        
 
 
 class WhoWeAreTextAPIView(APIView):

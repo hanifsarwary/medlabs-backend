@@ -244,7 +244,7 @@ CSRF_TRUSTED_ORIGINS = (
 # Heroku configuration
 # django_heroku.settings(locals())
 # del DATABASES['default']['OPTIONS']['sslmode']
-
+FRONT_END_DOMAIN = 'https://devsteller.com'
 ACTIVATION_EMAIL_DOMAIN = 'https://covid-plasmadonor.com' if ALLOWED_HOSTS else 'http://localhost:8000'
 
 BROKER_URL = 'redis://localhost:6379'
