@@ -13,7 +13,7 @@ def daterange_minute(start_date, end_date):
 def create_bulk_timeslots():
         timeslot_data = []
         current_date = datetime.today().replace(hour=10, minute=0)
-        days = daterange(current_date, current_date + timedelta(days=14))
+        days = daterange(current_date + timedelta(days=14), current_date + timedelta(days=14))
 
         for day in days:
             future_date = day + timedelta(hours=6)
@@ -25,4 +25,5 @@ def create_bulk_timeslots():
                     end_timestamp=time_range[ind + 1]
                 ))
                 ind +=1
+
         TimeSlot.objects.bulk_create(timeslot_data)
