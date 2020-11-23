@@ -25,6 +25,11 @@ class MediaViewSet(ModelViewSet):
 
 class NonMediaViewSet(ModelViewSet):
 
-    queryset = NonMedia.objects.all()
+
     serializer_class = NonMediaSerializer
     permission_classes = [AllowAny]
+
+    def get_queryset(self):
+
+        key = self.request.query_params.get('key')
+        return NonMedia.objects.filter(key=key)
