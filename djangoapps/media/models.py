@@ -20,3 +20,12 @@ class Media(TimeStampedModel):
 
     def __str__(self):
         return self.caption
+
+
+class NonMedia(models.Model):
+
+    image = models.ImageField(upload_to='website_pictures')
+    key = models.CharField(max_length=32, unique=True)
+
+    def __str__(self):
+        return self.key

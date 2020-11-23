@@ -89,7 +89,7 @@ class CareerVacancy(models.Model):
 
 class JobApplication(models.Model):
 
-    career_vacancy = models.ForeignKey(CareerVacancy, on_delete=models.CASCADE)
+    career_vacancy = models.ForeignKey(CareerVacancy, on_delete=models.CASCADE, null=True)
 
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)

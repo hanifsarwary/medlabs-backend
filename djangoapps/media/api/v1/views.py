@@ -1,8 +1,8 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import AllowAny
 
-from djangoapps.media.models import EditableText, Media
-from djangoapps.media.api.v1.serializers import EditableTextSerializer, MediaSerializer
+from djangoapps.media.models import EditableText, Media, NonMedia
+from djangoapps.media.api.v1.serializers import EditableTextSerializer, MediaSerializer, NonMediaSerializer
 
 
 class EditableTextsViewSet(ModelViewSet):
@@ -20,4 +20,11 @@ class MediaViewSet(ModelViewSet):
     """
     queryset = Media.objects.all()
     serializer_class = MediaSerializer
+    permission_classes = [AllowAny]
+
+
+class NonMediaViewSet(ModelViewSet):
+
+    queryset = NonMedia.objects.all()
+    serializer_class = NonMediaSerializer
     permission_classes = [AllowAny]
