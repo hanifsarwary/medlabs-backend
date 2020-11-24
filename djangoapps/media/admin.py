@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from djangoapps.media.models import EditableText, Media
+from djangoapps.media.models import EditableText, Media, NonMedia
 
 class EditableTextAdmin(admin.ModelAdmin):
     """
@@ -13,3 +13,5 @@ class EditableTextAdmin(admin.ModelAdmin):
 
 admin.site.register(EditableText, EditableTextAdmin)
 admin.site.register(Media)
+admin.site.register(NonMedia)
+
