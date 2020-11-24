@@ -111,6 +111,7 @@ class TimeSlotViewSet(ModelViewSet):
     """
     serializer_class = TimeSlotSerializer
     allowed_methods = ('get')
+    permission_classes = [AllowAny, ]
 
     def get_queryset(self):
         """
