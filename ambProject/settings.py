@@ -34,7 +34,7 @@ SECRET_KEY = 'wplf-_(u1f93ev*evx08fnm*l_9wa9)&(tyc-w)%)9w=*vmj@1'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'devsteller.com', 'localhost', '127.0.0.1', 'covid-plasmadonor.com'
+    'devsteller.com', 'localhost', '127.0.0.1', 'covid-plasmadonor.com', 'medscreenlabs.com'
 ]
 
 
@@ -231,6 +231,8 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'https://devsteller.com',
     'http://devsteller.com',
+    'https://medscreenlabs.com/',
+    'http://medscreenlabs.com/'
 )
 
 # CSRF configuration
@@ -239,12 +241,14 @@ CSRF_TRUSTED_ORIGINS = (
     'http://localhost:3000',
     'https://devsteller.com',
     'http://devsteller.com',
+    'https://medscreenlabs.com/',
+    'http://medscreenlabs.com/'
 )
 
 # Heroku configuration
 # django_heroku.settings(locals())
 # del DATABASES['default']['OPTIONS']['sslmode']
-FRONT_END_DOMAIN = 'https://devsteller.com'
+FRONT_END_DOMAIN = 'https://medscreenlabs.com'
 ACTIVATION_EMAIL_DOMAIN = 'https://covid-plasmadonor.com' if ALLOWED_HOSTS else 'http://localhost:8000'
 
 BROKER_URL = 'redis://localhost:6379'
