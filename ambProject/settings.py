@@ -231,8 +231,8 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'https://devsteller.com',
     'http://devsteller.com',
-    'https://medscreenlabs.com/',
-    'http://medscreenlabs.com/'
+    'https://medscreenlabs.com',
+    'http://medscreenlabs.com'
 )
 
 # CSRF configuration
@@ -241,8 +241,8 @@ CSRF_TRUSTED_ORIGINS = (
     'http://localhost:3000',
     'https://devsteller.com',
     'http://devsteller.com',
-    'https://medscreenlabs.com/',
-    'http://medscreenlabs.com/'
+    'https://medscreenlabs.com',
+    'http://medscreenlabs.com'
 )
 
 # Heroku configuration
