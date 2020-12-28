@@ -56,9 +56,10 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
     """
     Send password reset email to user.
     """
+    # reverse('password_reset:reset-password-confirm')
     subject = 'Email Reset'
     message = 'Kindly follow the below mentioned link to reset your password.\n{}?token={}'.format(
-        settings.ACTIVATION_EMAIL_DOMAIN + reverse('password_reset:reset-password-confirm'),
+        settings.FRONT_END_DOMAIN + '/reset-password',
         reset_password_token.key,
     )
     send_email.delay([reset_password_token.user.email], subject, message)

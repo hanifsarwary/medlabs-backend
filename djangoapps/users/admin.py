@@ -17,7 +17,7 @@ class UsersAdmin(admin.ModelAdmin):
                                'href="{}">{}</a>', edit_link, 'Edit', delete_link, 'Delete')
     link_to_actions.short_description = 'Actions'
 
-    fields = ['username', 'email', 'first_name', 'last_name', 'address', 'phone', 'is_staff', 'is_active']
+    fields = ['username', 'email', 'first_name', 'last_name', 'address', 'phone', 'is_staff', 'is_active', 'is_superuser']
     list_display = ['username', 'email', 'full_name', 'address', 'phone', 'link_to_actions']
     list_filter = ['is_staff', 'is_active']
     list_per_page = 25
