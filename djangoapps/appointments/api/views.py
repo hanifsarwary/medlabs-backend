@@ -58,13 +58,13 @@ class AppointmentCreateAPIView(CreateAPIView):
             time_slot.appointment_count += 1
             time_slot.save()
             recipient_list = []
-            message = "An new Appointment has been created by user: {}. \n Alloted TimeSlot: {}".format(
-                request.user.username, str(time_slot))
-            if request.user.email:
-                recipient_list.append(request.user.email)
-            recipient_list.append("hanifsarwari.nuces@gmail.com")
-            recipient_list.append('appointments@medscreenlabs.com')
-            send_email.delay(recipient_list, "Appointment created", message)
+            # message = "An new Appointment has been created by user: {}. \n Alloted TimeSlot: {}".format(
+            #     request.user.username, str(time_slot))
+            # if request.user.email:
+            #     recipient_list.append(request.user.email)
+            # recipient_list.append("hanifsarwari.nuces@gmail.com")
+            # recipient_list.append('appointments@medscreenlabs.com')
+            # send_email.delay(recipient_list, "Appointment created", message)
              
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
@@ -83,7 +83,7 @@ class UpdateAppointmentStatusAPIView(RetrieveUpdateDestroyAPIView):
     def paid_mail_to_user(self, request):
         appointment_obj = Appointment.objects.get(pk=self.kwargs.get('pk'))
 
-        if request.data.get('status') == 'paid':
+        if request.data.get('status') in ['paid', 'confirmed']:
             message = "User {} has paid {} USD for his appointment at {}".format(
                 self.request.user.username, str(appointment_obj.total_price), str(appointment_obj.time_slot))
             subject = "Payment confirmation"

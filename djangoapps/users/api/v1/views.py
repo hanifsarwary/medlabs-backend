@@ -50,8 +50,8 @@ def ActivateUserView(request):
         token = AccessToken(token)
         user_id = token.get('user_id', None)
         user = User.objects.get(id=user_id)
-        if user.is_active == True:
-            return Response('User is already activated', status=status.HTTP_400_BAD_REQUEST)
+        # if user.is_active == True:
+        #     return Response('User is already activated', status=status.HTTP_400_BAD_REQUEST)
 
         user.is_active = True
         user.save()

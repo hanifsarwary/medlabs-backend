@@ -45,7 +45,7 @@ def send_verification_mail(sender, instance, created, **kwargs):
     token = str(RefreshToken.for_user(instance).access_token)
     subject = 'Email Verification'
     message = 'Kindly follow the following link to verify your account.\n{}?token={}'.format(
-        settings.FRONT_END_DOMAIN + '/home',
+        settings.FRONT_END_DOMAIN + '/user-activation',
         token
     )
     send_email.delay([instance.email], subject, message)
