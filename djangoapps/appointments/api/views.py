@@ -81,12 +81,21 @@ class UpdateAppointmentStatusAPIView(RetrieveUpdateDestroyAPIView):
         return Appointment.objects.filter(pk=self.kwargs.get('pk'))
     
     def paid_mail_to_user(self, request):
+        messages = {
+            'paid': 'User {0} has paid {1} USD for his appointment on {2}',
+            'confirmed': '''A new appoinment has been created by the user {0} on {2}. 
+                            Please be advised that a payment of {1} will be due at the facility.'''
+        }
+        subjects = {
+            'paid': 'Payment Confirmation',
+            'confirmed': 'Appointment Confirmation'
+        }
         appointment_obj = Appointment.objects.get(pk=self.kwargs.get('pk'))
-
-        if request.data.get('status') in ['paid', 'confirmed']:
-            message = "User {} has paid {} USD for his appointment at {}".format(
+        status = request.data.get('status')
+        if  status in ['paid', 'confirmed']:
+            message = messages.get(status).format(
                 self.request.user.username, str(appointment_obj.total_price), str(appointment_obj.time_slot))
-            subject = "Payment confirmation"
+            subject = subjects.get(status)
             recipient_list = []
             if request.user.email:
                 recipient_list.append(request.user.email)
