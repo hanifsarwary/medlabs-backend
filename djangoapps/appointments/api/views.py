@@ -28,7 +28,7 @@ class AppointmentsViewSet(ModelViewSet):
         if active:
             queryset = queryset.filter(status='pending')
         else:
-            queryset = queryset.filter(status__in=['paid', 'confirmed']))
+            queryset = queryset.filter(status__in=['paid', 'confirmed'])
 
         return queryset
     
