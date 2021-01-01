@@ -12,6 +12,9 @@ from djangoapps.appointments.api.serializers import (
     UpdateAppointmentStatusSerializer)
 from djangoapps.users.tasks import send_email
 import json
+from square.client import Client
+
+
 
 class AppointmentsViewSet(ModelViewSet):
     """
@@ -103,6 +106,29 @@ class UpdateAppointmentStatusAPIView(RetrieveUpdateDestroyAPIView):
             recipient_list.append('appointments@medscreenlabs.com')
             send_email.delay(recipient_list, subject, message)
 
+    def post(self, request, *args, **kwargs):
+        
+
+        client = Client(
+            square_version='2020-12-16',
+            access_token='EAAAEMDxbwtU-tvp8Evfo7Yy3yEffkF3DhJQbTFVC93GK307e3CObohIckEqLnCA',
+            environment = 'sandbox')
+        result = payments_api.create_payment(request.data)
+        if result.is_success():
+            appointment_obj = Appointment.objects.get(pk=self.kwargs.get('pk'))
+            appointment_obj.status = 'paid'
+            appointment_obj.save()
+            request.data['status'] = 'paid'
+            self.paid_mail_to_user(request)
+            return Response({
+                self.get_serializer(data=self.get_queryset()).data}
+                )
+            
+        elif result.is_error():
+            return Response({
+                'error': result.errors
+            })
+    
     def put(self, request, *args, **kwargs):
         update_response = self.update(request, *args, **kwargs)
         self.paid_mail_to_user(request)
