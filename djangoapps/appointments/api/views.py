@@ -113,6 +113,7 @@ class UpdateAppointmentStatusAPIView(RetrieveUpdateDestroyAPIView):
             square_version='2020-12-16',
             access_token='EAAAEMDxbwtU-tvp8Evfo7Yy3yEffkF3DhJQbTFVC93GK307e3CObohIckEqLnCA',
             environment = 'sandbox')
+        payments_api = client.payments
         result = payments_api.create_payment(request.data)
         if result.is_success():
             appointment_obj = Appointment.objects.get(pk=self.kwargs.get('pk'))
