@@ -1,3 +1,4 @@
+import uuid
 from django.core.mail import send_mail
 from rest_framework import status
 from rest_framework.response import Response
@@ -115,7 +116,9 @@ class UpdateAppointmentStatusAPIView(RetrieveUpdateDestroyAPIView):
             environment = 'sandbox')
         payments_api = client.payments
         request.data['amount_money']['amount'] = int(request.data.get('amount_money').get('amount', 0))
+        request.data['idempotency_key'] = str(uuid.uuid4())
         result = payments_api.create_payment(request.data)
+
         if result.is_success():
             appointment_obj = Appointment.objects.get(pk=self.kwargs.get('pk'))
             appointment_obj.status = 'paid'
@@ -129,7 +132,7 @@ class UpdateAppointmentStatusAPIView(RetrieveUpdateDestroyAPIView):
         elif result.is_error():
             return Response({
                 'error': result.errors
-            })
+            }, status=400)
     
     def put(self, request, *args, **kwargs):
         update_response = self.update(request, *args, **kwargs)
