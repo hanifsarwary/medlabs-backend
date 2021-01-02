@@ -113,8 +113,7 @@ class UpdateAppointmentStatusAPIView(RetrieveUpdateDestroyAPIView):
 
         client = Client(
             square_version='2020-12-16',
-            access_token='EAAAEMDxbwtU-tvp8Evfo7Yy3yEffkF3DhJQbTFVC93GK307e3CObohIckEqLnCA',
-            environment = 'sandbox')
+            access_token='EAAAEHd2vGz8ml7NVvhXS9dxYU6xn9kjT4RrJNF_GBHWjgaWR6HhAvVTjS_St8Fa')
         payments_api = client.payments
         # request.data['amount_money']['amount'] = int(request.data.get('amount_money').get('amount', 0)) * 100
         appointment_obj = Appointment.objects.get(pk=self.kwargs.get('pk'))
