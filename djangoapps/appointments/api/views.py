@@ -129,7 +129,7 @@ class UpdateAppointmentStatusAPIView(RetrieveUpdateDestroyAPIView):
             request.data['status'] = 'paid'
             self.paid_mail_to_user(request)
             return Response({
-                self.get_serializer(data=self.get_queryset()).data}
+                'result': self.get_serializer(data=self.get_queryset()).data}
                 )
             
         elif result.is_error():
