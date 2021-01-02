@@ -115,7 +115,10 @@ class UpdateAppointmentStatusAPIView(RetrieveUpdateDestroyAPIView):
             access_token='EAAAEMDxbwtU-tvp8Evfo7Yy3yEffkF3DhJQbTFVC93GK307e3CObohIckEqLnCA',
             environment = 'sandbox')
         payments_api = client.payments
-        request.data['amount_money']['amount'] = int(request.data.get('amount_money').get('amount', 0)) * 100
+        # request.data['amount_money']['amount'] = int(request.data.get('amount_money').get('amount', 0)) * 100
+        request.data['amount_money'] = {}
+        request.data['amount_money']['amount'] = 200
+        request.data['amount_money']['currency'] = 'USD'
         request.data['idempotency_key'] = str(uuid.uuid4())
         result = payments_api.create_payment(request.data)
 
