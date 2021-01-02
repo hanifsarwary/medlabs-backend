@@ -84,7 +84,7 @@ class UpdateAppointmentStatusAPIView(RetrieveUpdateDestroyAPIView):
 
         return Appointment.objects.filter(pk=self.kwargs.get('pk'))
     
-    def paid_mail_to_user(self, request):
+    def paid_mail_to_user(self, request, appointment_obj=None):
         messages = {
             'paid': 'User {0} has paid {1} USD for his appointment on {2}',
             'confirmed': '''A new appoinment has been created by the user {0} on {2}. 
@@ -94,7 +94,8 @@ class UpdateAppointmentStatusAPIView(RetrieveUpdateDestroyAPIView):
             'paid': 'Payment Confirmation',
             'confirmed': 'Appointment Confirmation'
         }
-        appointment_obj = Appointment.objects.get(pk=self.kwargs.get('pk'))
+        if not appointment_obj:
+            appointment_obj = Appointment.objects.get(pk=self.kwargs.get('pk'))
         status = request.data.get('status')
         if  status in ['paid', 'confirmed']:
             message = messages.get(status).format(
@@ -116,18 +117,19 @@ class UpdateAppointmentStatusAPIView(RetrieveUpdateDestroyAPIView):
             environment = 'sandbox')
         payments_api = client.payments
         # request.data['amount_money']['amount'] = int(request.data.get('amount_money').get('amount', 0)) * 100
+        appointment_obj = Appointment.objects.get(pk=self.kwargs.get('pk'))
         request.data['amount_money'] = {}
-        request.data['amount_money']['amount'] = 200
+        request.data['amount_money']['amount'] = appointment_obj.total_price
         request.data['amount_money']['currency'] = 'USD'
         request.data['idempotency_key'] = str(uuid.uuid4())
         result = payments_api.create_payment(request.data)
 
         if result.is_success():
-            appointment_obj = Appointment.objects.get(pk=self.kwargs.get('pk'))
+            
             appointment_obj.status = 'paid'
             appointment_obj.save()
             request.data['status'] = 'paid'
-            self.paid_mail_to_user(request)
+            self.paid_mail_to_user(request, appointment_obj)
             return Response({
                 'result': self.get_serializer(data=self.get_queryset()).data}
                 )
