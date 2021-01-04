@@ -110,34 +110,36 @@ class UpdateAppointmentStatusAPIView(RetrieveUpdateDestroyAPIView):
 
     def post(self, request, *args, **kwargs):
         
+        if request.data.get('status') != 'confirmed':
+            client = Client(
+                square_version='2020-12-16',
+                access_token='EAAAEHd2vGz8ml7NVvhXS9dxYU6xn9kjT4RrJNF_GBHWjgaWR6HhAvVTjS_St8Fa')
+            payments_api = client.payments
+            # request.data['amount_money']['amount'] = int(request.data.get('amount_money').get('amount', 0)) * 100
+            appointment_obj = Appointment.objects.get(pk=self.kwargs.get('pk'))
+            request.data['amount_money'] = {}
+            request.data['amount_money']['amount'] = appointment_obj.total_price * 100
+            request.data['amount_money']['currency'] = 'USD'
+            request.data['idempotency_key'] = str(uuid.uuid4())
+            result = payments_api.create_payment(request.data)
 
-        client = Client(
-            square_version='2020-12-16',
-            access_token='EAAAEHd2vGz8ml7NVvhXS9dxYU6xn9kjT4RrJNF_GBHWjgaWR6HhAvVTjS_St8Fa')
-        payments_api = client.payments
-        # request.data['amount_money']['amount'] = int(request.data.get('amount_money').get('amount', 0)) * 100
-        appointment_obj = Appointment.objects.get(pk=self.kwargs.get('pk'))
-        request.data['amount_money'] = {}
-        request.data['amount_money']['amount'] = appointment_obj.total_price * 100
-        request.data['amount_money']['currency'] = 'USD'
-        request.data['idempotency_key'] = str(uuid.uuid4())
-        result = payments_api.create_payment(request.data)
+            if result.is_success():
+                
+                appointment_obj.status = 'paid'
+                appointment_obj.save()
+                request.data['status'] = 'paid'
+                self.paid_mail_to_user(request, appointment_obj)
+                return Response({
+                    'result': 'appointment paid'}, status=200
+                    )
+                
+            elif result.is_error():
+                return Response({
+                    'error': result.errors
+                }, status=400)
+        else:
+            return self.patch(request, *args, **kwargs)
 
-        if result.is_success():
-            
-            appointment_obj.status = 'paid'
-            appointment_obj.save()
-            request.data['status'] = 'paid'
-            self.paid_mail_to_user(request, appointment_obj)
-            return Response({
-                'result': 'appointment paid'}, status=200
-                )
-            
-        elif result.is_error():
-            return Response({
-                'error': result.errors
-            }, status=400)
-    
     def put(self, request, *args, **kwargs):
         update_response = self.update(request, *args, **kwargs)
         self.paid_mail_to_user(request)
