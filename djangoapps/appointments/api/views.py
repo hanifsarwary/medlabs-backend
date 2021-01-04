@@ -118,7 +118,7 @@ class UpdateAppointmentStatusAPIView(RetrieveUpdateDestroyAPIView):
         # request.data['amount_money']['amount'] = int(request.data.get('amount_money').get('amount', 0)) * 100
         appointment_obj = Appointment.objects.get(pk=self.kwargs.get('pk'))
         request.data['amount_money'] = {}
-        request.data['amount_money']['amount'] = appointment_obj.total_price
+        request.data['amount_money']['amount'] = appointment_obj.total_price * 100
         request.data['amount_money']['currency'] = 'USD'
         request.data['idempotency_key'] = str(uuid.uuid4())
         result = payments_api.create_payment(request.data)
