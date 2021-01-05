@@ -17,7 +17,7 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
 from rest_framework_simplejwt.views import (
-    TokenRefreshView,
+    TokenRefreshView, TokenVerifyView
 )
 from django_rest_passwordreset.views import reset_password_request_token, reset_password_validate_token
 
@@ -55,6 +55,7 @@ urlpatterns = [
     # jwt token urls
     url(r'^api/token/', UserTokenObtainPairView.as_view(), name='token_obtain_pair'),
     url(r'^api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    url(r'^api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     url(r'^api/password_reset/validate_token/', reset_password_validate_token, name="reset-password-validate"),
     url(r'^api/password_reset/confirm/', ResetPasswordConfirm.as_view(), name="reset-password-confirm"),
     url(r'^api/password_reset/', reset_password_request_token, name="reset-password-request"),
