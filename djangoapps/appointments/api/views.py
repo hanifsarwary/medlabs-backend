@@ -178,7 +178,7 @@ class TestsViewSet(ModelViewSet):
     serializer_class = TestSerializer
     allowed_methods = ('get')
     queryset = Test.objects.all()
-
+    permission_classes = [AllowAny, ]
 
 class CategoriesAPIView(ListAPIView):
 
