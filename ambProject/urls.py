@@ -55,7 +55,7 @@ urlpatterns = [
     # jwt token urls
     url(r'^api/token/', UserTokenObtainPairView.as_view(), name='token_obtain_pair'),
     url(r'^api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    url(r'^api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    url(r'^api/verify/token/', TokenVerifyView.as_view(), name='token_verify'),
     url(r'^api/password_reset/validate_token/', reset_password_validate_token, name="reset-password-validate"),
     url(r'^api/password_reset/confirm/', ResetPasswordConfirm.as_view(), name="reset-password-confirm"),
     url(r'^api/password_reset/', reset_password_request_token, name="reset-password-request"),
