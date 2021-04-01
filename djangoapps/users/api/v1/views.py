@@ -16,11 +16,15 @@ from djangoapps.users.api.v1.serializers import (
     PasswordTokenSerializer, DisplayUserReviewsSerializer,
     UserSerializer, CareerVacancySerializer, JobApplicationSerializer,
     UserSignUpSerializer,
-    UserTokenObtainPairSerializer, 
+    UserTokenObtainPairSerializer,
 )
 from djangoapps.media.models import EditableText
 from djangoapps.users.tasks import send_email
 from constance import config
+
+class CreatePermissionOnly(permissions.AllowAny)
+    def has_permission(self, request, view):
+        return (view.action == 'create' and super(CreatePermissionOnly, self).has_permission(request, view))
 
 
 class UsersViewSet(ModelViewSet):
@@ -29,7 +33,7 @@ class UsersViewSet(ModelViewSet):
     """
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [CreatePermissionOnly]
 
     def get_serializer_class(self):
         """
@@ -95,15 +99,15 @@ class JobApplicationViewSet(ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         application = self.perform_create(serializer)
-        message = """An new Application for the job {0} arrived. 
-                     Kindly click on the link below to view \n 
+        message = """An new Application for the job {0} arrived.
+                     Kindly click on the link below to view \n
                      {1}//admin/users/jobapplication/{2}/change/""".format(
             application.career_vacancy.title, settings.ACTIVATION_EMAIL_DOMAIN, str(application.id))
         send_email.delay(['appointments@medscreenlabs.com'], "Job Application", message)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
-        
+
 
 
 class WhoWeAreTextAPIView(APIView):
