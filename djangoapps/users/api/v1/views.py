@@ -27,7 +27,7 @@ class CreatePermissionOnly(AllowAny):
         return (view.action == 'create' and super(CreatePermissionOnly, self).has_permission(request, view))
 
 
-class ListPermissionOnly(IsAuthenticated):
+class ListPermissionOnly(AllowAny):
     def has_permission(self, request, view):
         return (view.action == 'list' and super(ListPermissionOnly, self).has_permission(request, view))
 
