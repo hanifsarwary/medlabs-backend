@@ -22,12 +22,12 @@ from djangoapps.media.models import EditableText
 from djangoapps.users.tasks import send_email
 from constance import config
 
-class CreatePermissionOnly(AllowAny)
+class CreatePermissionOnly(AllowAny):
     def has_permission(self, request, view):
         return (view.action == 'create' and super(CreatePermissionOnly, self).has_permission(request, view))
 
 
-class ListPermissionOnly(IsAuthenticated)
+class ListPermissionOnly(IsAuthenticated):
     def has_permission(self, request, view):
         return (view.action == 'list' and super(ListPermissionOnly, self).has_permission(request, view))
 
