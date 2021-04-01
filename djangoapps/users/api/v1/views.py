@@ -95,7 +95,7 @@ class JobApplicationViewSet(ModelViewSet):
 
     serializer_class = JobApplicationSerializer
     queryset = JobApplication.objects.all()
-    permission_classes = [AllowAny]
+    permission_classes = [CreatePermissionOnly]
 
     def perform_create(self, serializer):
         return serializer.save()
