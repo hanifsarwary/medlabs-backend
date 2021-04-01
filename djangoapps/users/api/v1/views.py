@@ -22,9 +22,14 @@ from djangoapps.media.models import EditableText
 from djangoapps.users.tasks import send_email
 from constance import config
 
-class CreatePermissionOnly(permissions.AllowAny)
+class CreatePermissionOnly(AllowAny)
     def has_permission(self, request, view):
         return (view.action == 'create' and super(CreatePermissionOnly, self).has_permission(request, view))
+
+
+class ListPermissionOnly(IsAuthenticated)
+    def has_permission(self, request, view):
+        return (view.action == 'list' and super(ListPermissionOnly, self).has_permission(request, view))
 
 
 class UsersViewSet(ModelViewSet):
@@ -76,14 +81,14 @@ class DisplayUserReviewsViewSet(ModelViewSet):
 
     serializer_class = DisplayUserReviewsSerializer
     queryset = DisplayUserReviews.objects.all()
-    permission_classes = [AllowAny]
+    permission_classes = [ListPermissionOnly]
 
 
 class CareerVacancyViewSet(ModelViewSet):
 
     serializer_class = CareerVacancySerializer
     queryset = CareerVacancy.objects.all()
-    permission_classes = [AllowAny]
+    permission_classes = [ListPermissionOnly]
 
 
 class JobApplicationViewSet(ModelViewSet):
